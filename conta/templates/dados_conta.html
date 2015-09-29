@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+        <form action="/alterar_conta/{{ codigo }}/" method="post">
+            <table>
+                {{form}}
+            </table>
+            <input type="submit" value="Salvar"/>- <a href="/apagar_conta/{{ codigo }}/">Excluir</a> - <a href="/">Voltar</a>
+        </form>
+        
+{% endblock %}

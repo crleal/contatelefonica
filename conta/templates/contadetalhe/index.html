@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load pagination_tags %}
+
+{% block conteudo %}
+   </br>
+   <input type="text" name="tel" onchange=
+   <a href="{{ telefonia.conta.views.filtra_contadetalhe }}" /><br /><br />
+
+   {{ tel }}
+
+
+   {% autopaginate ContaDetalhes 15 %}
+  
+
+
+   <table border="0" width="100%">
+       
+       
+       {% for contadetalhe in ContaDetalhes %}
+           {% if  forloop.first %}
+           <tr>
+                 <th >{{  contadetalhe  }}</th>
+                 <th >{{  contadetalhe.nun_seq.label_tag  }}</th>
+                 <th >{{  contadetalhe.tipo.label_tag  }}</th>
+                 <th >dt_lig</th>
+                 <th >origem</th>
+                 <th >tel_origem</th>
+                 <th >destino</th>
+                 <th >tel_destino</th>
+                 <th >duracao</th>
+                 <th >horario</th>
+                 <th >servico</th>
+                 <th >vlr_lig</th>
+           </tr>
+           {% endif%}
+          <tr>           
+             <td >{{ contadetalhe.num_conta}}</a> </td>
+             <td ><a href="{% url telefonia.conta.views.alterar_contadetalhe contadetalhe.id %}">{{ contadetalhe.nun_seq }}</td>
+             <td >{{ contadetalhe.tipo }}</td>
+             <td >{{ contadetalhe.dt_lig }}</td>
+             <td >{{ contadetalhe.origem }}</td>
+             <td >{{ contadetalhe.tel_origem }}</td>
+             <td >{{ contadetalhe.destino }}</td>
+             <td >{{ contadetalhe.tel_destino|stringformat:"s" }}</td>
+             <td >{{ contadetalhe.duracao }}</td>
+             <td >{{ contadetalhe.horario }}</td>
+             <td >{{ contadetalhe.servico }}</td>
+             <td >{{ contadetalhe.vlr_lig  }}</td>
+          </tr>
+       {% endfor %}
+   </table> 
+   </br>
+   {% paginate %}
+   </br>
+
+{% endblock %}

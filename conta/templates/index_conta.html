@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block conteudo %}
+   </br>
+   <a href="/adcionar_conta/">Adicionar Conta</a><br /><br />
+
+   <table border="0" >
+       <tr>
+             <td>Numero conta </td>
+             <td>Vencimento</td>
+             <td>Valor</td>
+       </tr>
+
+       {% for conta in Contas %}
+          <tr>
+             <td><a href="/dadosconta/{{ conta.num_conta }}/">{{ conta.num_conta }}</a> </td>
+             <td>{{ conta.dt_vencimento }}</td>
+             <td>{{ conta.vl_nota }}</td>
+          </tr>
+       {% endfor %}
+   </table> 
+   </br>
+
+   </br>
+
+{% endblock %}

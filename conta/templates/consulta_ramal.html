@@ -1,0 +1,172 @@
+{% extends "admin/base.html" %}
+{% load adminmedia admin_list i18n %}
+{% load l10n %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/changelists.css" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+    {% url admin:jsi18n as jsi18nurl %}
+    <script type="text/javascript" src="{{ jsi18nurl|default:'../../jsi18n/' }}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+
+<script type="text/javascript">
+
+function muda_url()
+{
+  filial = document.getElementById("id_filial").value;
+  setor = document.getElementById("id_setor").value;
+  //alert("teste "+ filial+"/"+setor);  
+  location.href = "/contatelefonica/consultaramal/"+filial+"/"+setor;
+}
+
+
+</script>
+
+
+
+{% endblock %}
+
+
+{% block userlinks %} {% endblock %}
+{% block breadcrumbsInicial %}  {% endblock %}
+{% block breadcrumbs %} {% endblock %}
+{% block coltype %}colMS{% endblock %}
+
+
+
+{% load i18n %}
+{% load tags %}
+
+{% block content %}
+
+
+<h4>Consulta Ramais </h4>
+<table>
+   <tr>
+     <td>
+       <h4>Filial</h4>
+        <select id="id_filial"  onchange="javascript:muda_url();">
+          <option   {% ifequal  idloja 0  %}  selected="selected" {% endifequal %} value="0">
+             Todas 
+          </option>
+          {% for choice in loja %}
+             <option {% ifequal  choice.lojaid|toInt idloja|toInt  %}  
+                  selected="selected" {% endifequal %} value="{{choice.lojaid }}">
+                {{ choice.nomeloja }} 
+             </option>
+          {% endfor %}           
+        </select>
+     </td>
+     <td>
+       <h4>Setor</h4>
+        <select id="id_setor"  onchange="javascript:muda_url();">
+          <option   {% ifequal  idsetor 0  %}  selected="selected" {% endifequal %} value="0">
+             Todas 
+          </option>
+          {% for choice in setorramal %}
+             <option {% ifequal  choice.setorramalid|toInt idsetor|toInt  %}  
+                  selected="selected" {% endifequal %} value="{{choice.setorramalid }}">
+                {{ choice.setor }} 
+             </option>
+          {% endfor %}           
+        </select>
+     </td>
+   </tr>
+</table>
+</br>
+<div id="content-main">
+   <div class="float-left">
+   <!--
+      <div class="module" id="recent-actions-module">
+          <table border = "1"  id="result_list">
+              <thead>
+                  <tr>
+                    <th scope="col"> <a href="">  Filial  </a></th>
+                    <th scope="col"> <a href="">  Telefone </a></th>                    
+                  </tr>
+              </thead>    
+              <tr >
+                  <td> <a href="/contatelefonica/consultaramal/0/0" > Todas </a> </td>
+                  <td>  </td>                  
+              </tr>    
+              {% for registro in loja %}
+              <tr class="{% cycle 'row1' 'row2' %}">
+                  <td>  <a href="/contatelefonica/consultaramal/{{registro.lojaid}}/0" > {{ registro.nomeloja  }} </a>   </td>
+                  <td>  {{ registro.tel  }} </td>                  
+              </tr>    
+              {% endfor %}
+        </table>
+      </div>
+   </div>
+ -->
+   <div class="float-left">
+      <div class="module" id="recent-actions-module">
+          <table border = "1"  id="result_list">
+  
+             <thead>
+                  <tr>
+                    <th colspan=4 scope="col" style="text-align:center">  Ramais </th>
+                    
+                  </tr>
+                  <tr>
+                    <th scope="col"> <a href="">  Nome  </a></th>
+                    <th scope="col"> <a href="">  Ramal </a></th>
+                    <th scope="col"> <a href="">  Filial  </a></th>
+                    <th scope="col"> <a href="">  Setor </a></th> 
+                  </tr>
+              </thead>    
+
+              {% for ramal in Ramals %}
+              <tr class="{% cycle 'row1' 'row2' %}">
+                  <td>  {{ ramal.nome  }} </td>
+                  <td>  {{ ramal.ramal  }} </td>
+                  <td>  {{ ramal.lojaid  }} </td>
+                  <td>  {{ ramal.setorramalid}} </td>
+              </tr>    
+              {% endfor %}
+        </table>
+      </div>
+   </div>
+
+   <div class="float-left" style="padding-left:10px">
+      <div class="module" id="recent-actions-module">
+          <table border = "1"  id="result_list">
+              <thead>
+                  <tr>
+                    <th colspan=5 scope="col" style="text-align:center">  Celulares </th>
+                    
+                  </tr>
+                  <tr>
+                    <th scope="col"> <a href="">  Nome  </a></th>
+                    <th scope="col"> <a href="">  Celular </a></th>
+                    <th scope="col"> <a href="">  Nextel</a></th>
+                    <th scope="col"> <a href="">  Filial  </a></th>
+                    <th scope="col"> <a href="">  Setor </a></th> 
+                  </tr>
+              </thead>    
+              {% for celular in Celulares %}
+              <tr class="{% cycle 'row1' 'row2' %}">
+                  <td>  {{ celular.nome  }} </td>
+                  <td>  {{ celular.celular  }} </td>
+                  <td>  {{ celular.id}} </td>
+                  <td>  {{ celular.lojaid  }} </td>
+                  <td>  {{ celular.setorramalid}} </td>
+              </tr>    
+              {% endfor %}
+        </table>
+      </div>
+   </div>
+</div>
+</br>
+
+{% endblock %}

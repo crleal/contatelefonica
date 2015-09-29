@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load pagination_tags %}
+
+{% block conteudo %}
+   </br>
+   <a href="{% url telefonia.conta.views.nova_conta %}">Nova Conta</a><br /><br />
+
+   {% autopaginate Contas  15 %}
+   <table border="0" width="100%">
+       <tr>
+             <td width="20%">Conta</td>
+             <td width="70%">Data Vencimento</td>
+             <td width="10%">Valor</td>
+       </tr>
+       {% for conta in Contas %}
+          <tr>
+             <td><a href="{% url telefonia.conta.views.alterar_conta conta.num_conta  %}">{{ conta.num_conta}}</a> </td>
+             <td>{{ conta.dt_vencimento }}</td>
+             <td>{{ conta.vl_nota }}</td>
+          </tr>
+       {% endfor %}
+   </table> 
+   </br>
+   {% paginate %}
+   </br>
+
+{% endblock %}
